@@ -1,0 +1,22 @@
+{
+    "name": "shooyaaa/three",
+    "description": "A personal php framework",
+    "license": "MIT",
+    "keywords": ["php framework"],
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "shooyaaa",
+            "email": "shooyaaa@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Shooyaaa\\Three": "src/"
+        }
+    }
+}
