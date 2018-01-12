@@ -3,6 +3,7 @@
 namespace Shooyaaa\Three\Database;
 
 use Shooyaaa\Three\Contracts\Connection;
+use Shooyaaa\Three\Contracts\Connector;
 
 class MongoManager implements Connection {
     private $_config;
@@ -25,14 +26,14 @@ class MongoManager implements Connection {
     }
 
     private function resolve($name) {
-        if (!empty($this->_config[$name])) {
-            throw new \Exception("$name not found in config");
+        if (empty($this->_config[$name]) || empty($this->_config[$name]['type'])) {
+            throw new \InvalidArgumentException("$name not found in config");
         }
         $config = $this->_config[$name];
         $connector = $this->connector($config['type']);
 
-        if (!$connector instanceof Shooyaaa\Three\Contracts\Connector) {
-            throw new \Exception("not a connector $connector");
+        if (!$connector instanceof Connector) {
+            throw new \InvalidArgumentException("not a connector $connector");
         }
 
         return $connector;
