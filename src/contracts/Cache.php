@@ -1,6 +1,6 @@
 <?php
 
-namespace Shooyaaa\Contracts\Cache;
+namespace Shooyaaa\Three\Contracts;
 
 interface Cache {
     public function connect($name);

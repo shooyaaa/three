@@ -8,13 +8,13 @@ class MongoManager implements Connection {
     private $_config;
     private $_pool;
 
-    public function __constrct(array $config) {
+    public function __construct(array $config) {
         $this->_config = $config;
         $this->_pool = [];
     }
 
     public function connection($name) {
-        if ($this->_pool[$name]) {
+        if (!empty($this->_pool[$name])) {
             return $this->_pool[$name];
         }
 
@@ -25,16 +25,24 @@ class MongoManager implements Connection {
     }
 
     private function resolve($name) {
-        $config = $this->_config[$name];
-        if (!$config) {
-            throw \Exception("$name not found in mongo config");
+        if (!empty($this->_config[$name])) {
+            throw new \Exception("$name not found in config");
         }
+        $config = $this->_config[$name];
         $connector = $this->connector($config['type']);
+
+        if (!$connector instanceof Shooyaaa\Three\Contracts\Connector) {
+            throw new \Exception("not a connector $connector");
+        }
 
         return $connector;
     }
 
     public function connector($type) {
-        return new MongoConnector();
+        if ($type == 'mongo-php') {
+            return new MongoConnector();
+        }
+
+        return null;
     }
 }
